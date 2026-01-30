@@ -1,0 +1,37 @@
+{
+    "wallet_balance": 88906.91915837531,
+    "current_pnl": 0.0,
+    "trades_taken": 0,
+    "wins": 0,
+    "losses": 0,
+    "score": 320,
+    "active_trades": [
+        {
+            "symbol": "TEST.NS",
+            "entry_price": 100.0,
+            "entry_rsi": 45.0,
+            "oracle_confidence": 0.95,
+            "timestamp": "2026-01-25 18:18:40.690614",
+            "status": "OPEN",
+            "mood_at_time": "Conservative"
+        },
+        {
+            "symbol": "TEST.NS",
+            "entry_price": 100.0,
+            "entry_rsi": 45.0,
+            "oracle_confidence": 0.95,
+            "timestamp": "2026-01-25 18:19:05.664009",
+            "status": "OPEN",
+            "mood_at_time": "Conservative"
+        },
+        {
+            "symbol": "TEST.NS",
+            "entry_price": 100.0,
+            "entry_rsi": 45.0,
+            "oracle_confidence": 0.95,
+            "timestamp": "2026-01-25 18:19:33.556389",
+            "status": "OPEN",
+            "mood_at_time": "Conservative"
+        }
+    ]
+}

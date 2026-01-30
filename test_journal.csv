@@ -1,0 +1,2 @@
+timestamp,symbol,action,price,rsi,sma,result,mood_at_time,oracle_confidence
+2026-01-25 18:19:33.556389,TEST.NS,BUY,100.0,45.0,0,OPEN,Conservative,0.95

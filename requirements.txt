@@ -1,0 +1,15 @@
+fastapi
+uvicorpandas
+pandas_ta
+yfinance
+fastapi
+uvicorn
+dhanhq
+pyotp
+scikit-learn
+joblib
+matplotlib
+google-generativeai
+anthropic
+pypdf
+python-dotenv

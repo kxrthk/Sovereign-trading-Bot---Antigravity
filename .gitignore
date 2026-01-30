@@ -1,0 +1,45 @@
+# --- SECRETS (CRITICAL) ---
+.env
+sovereign_secrets.env
+*.key
+*.pem
+
+# --- PYTHON ---
+__pycache__/
+*.py[cod]
+*$py.class
+venv/
+env/
+.venv/
+
+# --- DASHBOARD / NODE ---
+dashboard/node_modules/
+dashboard/dist/
+dashboard/.env
+dashboard/.DS_Store
+
+# --- LOGS & DATA ---
+*.log
+*.sqlite
+*.db
+memories/uploads/
+training_raw/news/
+
+# --- BINARIES & BACKUPS ---
+*.zip
+*.rar
+*.exe
+cloudflared.exe
+ngrok.exe
+release_v*/
+SovereignTradingBot_*/
+sovereign_bot_latest/
+
+# --- IDE ---
+.vscode/
+.idea/
+
+# --- OS ---
+Thumbs.db
+Desktop.ini
+.DS_Store

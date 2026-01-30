@@ -1,0 +1,747 @@
+[
+    {
+        "symbol": "TEST.NS",
+        "quantity": 1,
+        "avg_price": 1000,
+        "action": "BUY",
+        "timestamp": "2026-01-20 00:25:06.741528",
+        "status": "OPEN"
+    },
+    {
+        "symbol": "TEST",
+        "quantity": 100,
+        "avg_price": 100,
+        "action": "BUY",
+        "timestamp": "2026-01-20 00:35:50.834188",
+        "status": "OPEN",
+        "taxes_paid": 11.9189
+    },
+    {
+        "symbol": "TEST",
+        "quantity": 100,
+        "avg_price": 100,
+        "action": "BUY",
+        "timestamp": "2026-01-20 00:39:12.665469",
+        "status": "OPEN",
+        "taxes_paid": 11.92
+    },
+    {
+        "order_id": "ORD-EEC6-ADANIENT",
+        "symbol": "ADANIENT",
+        "quantity": 3,
+        "avg_price": 2949.567665201194,
+        "action": "BUY",
+        "timestamp": "2026-01-21 12:34:15.893715",
+        "status": "OPEN",
+        "taxes_paid": 10.55
+    },
+    {
+        "order_id": "ORD-A487-RELIANCE.NS",
+        "symbol": "RELIANCE.NS",
+        "quantity": 5,
+        "avg_price": 1408.5,
+        "action": "SELL",
+        "timestamp": "2026-01-21 12:52:04.105594",
+        "status": "OPEN",
+        "taxes_paid": 30.48
+    },
+    {
+        "order_id": "ORD-C412-RELIANCE.NS",
+        "symbol": "RELIANCE.NS",
+        "quantity": 2,
+        "avg_price": 1408.800048828125,
+        "action": "SELL",
+        "timestamp": "2026-01-21 12:53:16.568732",
+        "status": "OPEN",
+        "taxes_paid": 21.04
+    },
+    {
+        "order_id": "ORD-9EB8-RELIANCE.NS",
+        "symbol": "RELIANCE.NS",
+        "quantity": 5,
+        "avg_price": 1410.199951171875,
+        "action": "SELL",
+        "timestamp": "2026-01-21 13:06:34.313575",
+        "status": "OPEN",
+        "taxes_paid": 30.5
+    },
+    {
+        "order_id": "ORD-62B9-ADANIENT.NS",
+        "symbol": "ADANIENT.NS",
+        "quantity": 1,
+        "avg_price": 2064.5,
+        "action": "SELL",
+        "timestamp": "2026-01-21 13:06:37.751353",
+        "status": "OPEN",
+        "taxes_paid": 19.36
+    },
+    {
+        "order_id": "ORD-A6D9-RELIANCE.NS",
+        "symbol": "RELIANCE.NS",
+        "quantity": 5,
+        "avg_price": 1409.5,
+        "action": "SELL",
+        "timestamp": "2026-01-21 13:07:08.155702",
+        "status": "OPEN",
+        "taxes_paid": 30.49
+    },
+    {
+        "order_id": "ORD-56AD-RELIANCE.NS",
+        "symbol": "RELIANCE.NS",
+        "quantity": 5,
+        "avg_price": 1409.4000244140625,
+        "action": "SELL",
+        "timestamp": "2026-01-21 13:07:41.133287",
+        "status": "OPEN",
+        "taxes_paid": 30.49
+    },
+    {
+        "order_id": "ORD-95C5-RELIANCE.NS",
+        "symbol": "RELIANCE.NS",
+        "quantity": 1,
+        "avg_price": 1410.0999755859375,
+        "action": "SELL",
+        "timestamp": "2026-01-21 13:08:13.165131",
+        "status": "OPEN",
+        "taxes_paid": 17.9
+    },
+    {
+        "order_id": "ORD-E294-RELIANCE.NS",
+        "symbol": "RELIANCE.NS",
+        "quantity": 3,
+        "avg_price": 1410.5999755859375,
+        "action": "SELL",
+        "timestamp": "2026-01-21 13:08:45.153460",
+        "status": "OPEN",
+        "taxes_paid": 24.2
+    },
+    {
+        "order_id": "ORD-5C70-RELIANCE.NS",
+        "symbol": "RELIANCE.NS",
+        "quantity": 2,
+        "avg_price": 1410.199951171875,
+        "action": "SELL",
+        "timestamp": "2026-01-21 13:09:17.140491",
+        "status": "OPEN",
+        "taxes_paid": 21.05
+    },
+    {
+        "order_id": "ORD-135A-RELIANCE.NS",
+        "symbol": "RELIANCE.NS",
+        "quantity": 4,
+        "avg_price": 1410.0,
+        "action": "SELL",
+        "timestamp": "2026-01-21 13:09:49.361293",
+        "status": "OPEN",
+        "taxes_paid": 27.35
+    },
+    {
+        "order_id": "ORD-8C0E-RELIANCE.NS",
+        "symbol": "RELIANCE.NS",
+        "quantity": 3,
+        "avg_price": 1408.199951171875,
+        "action": "SELL",
+        "timestamp": "2026-01-21 13:10:26.253331",
+        "status": "OPEN",
+        "taxes_paid": 24.19
+    },
+    {
+        "order_id": "ORD-4EF7-INFY.NS",
+        "symbol": "INFY.NS",
+        "quantity": 4,
+        "avg_price": 1650.199951171875,
+        "action": "SELL",
+        "timestamp": "2026-01-21 13:10:59.347140",
+        "status": "OPEN",
+        "taxes_paid": 29.49
+    },
+    {
+        "order_id": "ORD-80D7-RELIANCE.NS",
+        "symbol": "RELIANCE.NS",
+        "quantity": 5,
+        "avg_price": 1407.4000244140625,
+        "action": "SELL",
+        "timestamp": "2026-01-21 13:11:31.159573",
+        "status": "OPEN",
+        "taxes_paid": 30.47
+    },
+    {
+        "order_id": "ORD-5BC6-INFY.NS",
+        "symbol": "INFY.NS",
+        "quantity": 5,
+        "avg_price": 1651.0,
+        "action": "SELL",
+        "timestamp": "2026-01-21 13:11:31.522431",
+        "status": "OPEN",
+        "taxes_paid": 33.19
+    },
+    {
+        "order_id": "ORD-5710-RELIANCE.NS",
+        "symbol": "RELIANCE.NS",
+        "quantity": 2,
+        "avg_price": 1408.300048828125,
+        "action": "SELL",
+        "timestamp": "2026-01-21 13:15:23.774475",
+        "status": "OPEN",
+        "taxes_paid": 21.04
+    },
+    {
+        "order_id": "ORD-3B14-INFY.NS",
+        "symbol": "INFY.NS",
+        "quantity": 3,
+        "avg_price": 1652.0,
+        "action": "SELL",
+        "timestamp": "2026-01-21 13:15:24.119714",
+        "status": "OPEN",
+        "taxes_paid": 25.82
+    },
+    {
+        "order_id": "ORD-531A-HDFCBANK.NS",
+        "symbol": "HDFCBANK.NS",
+        "quantity": 5,
+        "avg_price": 925.5,
+        "action": "SELL",
+        "timestamp": "2026-01-21 13:15:24.359400",
+        "status": "OPEN",
+        "taxes_paid": 25.09
+    },
+    {
+        "order_id": "ORD-D269-RELIANCE.NS",
+        "symbol": "RELIANCE.NS",
+        "quantity": 5,
+        "avg_price": 1407.199951171875,
+        "action": "SELL",
+        "timestamp": "2026-01-21 13:15:56.619663",
+        "status": "OPEN",
+        "taxes_paid": 30.47
+    },
+    {
+        "order_id": "ORD-2E85-INFY.NS",
+        "symbol": "INFY.NS",
+        "quantity": 2,
+        "avg_price": 1651.699951171875,
+        "action": "SELL",
+        "timestamp": "2026-01-21 13:15:57.023296",
+        "status": "OPEN",
+        "taxes_paid": 22.13
+    },
+    {
+        "order_id": "ORD-9553-HDFCBANK.NS",
+        "symbol": "HDFCBANK.NS",
+        "quantity": 1,
+        "avg_price": 925.0999755859375,
+        "action": "SELL",
+        "timestamp": "2026-01-21 13:15:57.245938",
+        "status": "OPEN",
+        "taxes_paid": 16.82
+    },
+    {
+        "order_id": "ORD-D430-INFY.NS",
+        "symbol": "INFY.NS",
+        "quantity": 1,
+        "avg_price": 1650.9000244140625,
+        "action": "SELL",
+        "timestamp": "2026-01-21 13:16:30.793219",
+        "status": "OPEN",
+        "taxes_paid": 18.44
+    },
+    {
+        "order_id": "ORD-9D50-HDFCBANK.NS",
+        "symbol": "HDFCBANK.NS",
+        "quantity": 4,
+        "avg_price": 925.0499877929688,
+        "action": "SELL",
+        "timestamp": "2026-01-21 13:16:31.025639",
+        "status": "OPEN",
+        "taxes_paid": 23.02
+    },
+    {
+        "order_id": "ORD-7DEE-INFY.NS",
+        "symbol": "INFY.NS",
+        "quantity": 1,
+        "avg_price": 1650.9000244140625,
+        "action": "SELL",
+        "timestamp": "2026-01-21 13:17:03.557519",
+        "status": "OPEN",
+        "taxes_paid": 18.44
+    },
+    {
+        "order_id": "ORD-5A3A-HDFCBANK.NS",
+        "symbol": "HDFCBANK.NS",
+        "quantity": 2,
+        "avg_price": 924.0,
+        "action": "SELL",
+        "timestamp": "2026-01-21 13:17:03.773273",
+        "status": "OPEN",
+        "taxes_paid": 18.88
+    },
+    {
+        "order_id": "ORD-33DB-INFY.NS",
+        "symbol": "INFY.NS",
+        "quantity": 4,
+        "avg_price": 1650.9000244140625,
+        "action": "SELL",
+        "timestamp": "2026-01-21 13:17:17.493383",
+        "status": "OPEN",
+        "taxes_paid": 29.5
+    },
+    {
+        "order_id": "ORD-F3B0-HDFCBANK.NS",
+        "symbol": "HDFCBANK.NS",
+        "quantity": 4,
+        "avg_price": 924.0499877929688,
+        "action": "SELL",
+        "timestamp": "2026-01-21 13:17:17.735496",
+        "status": "OPEN",
+        "taxes_paid": 23.01
+    },
+    {
+        "order_id": "ORD-151E-RELIANCE.NS",
+        "symbol": "RELIANCE.NS",
+        "quantity": 2,
+        "avg_price": 1408.0999755859375,
+        "action": "SELL",
+        "timestamp": "2026-01-21 13:17:51.296673",
+        "status": "OPEN",
+        "taxes_paid": 21.04
+    },
+    {
+        "order_id": "ORD-29E6-INFY.NS",
+        "symbol": "INFY.NS",
+        "quantity": 5,
+        "avg_price": 1651.5999755859375,
+        "action": "SELL",
+        "timestamp": "2026-01-21 13:17:51.603958",
+        "status": "OPEN",
+        "taxes_paid": 33.2
+    },
+    {
+        "order_id": "ORD-FBEC-HDFCBANK.NS",
+        "symbol": "HDFCBANK.NS",
+        "quantity": 3,
+        "avg_price": 925.5,
+        "action": "SELL",
+        "timestamp": "2026-01-21 13:17:51.779916",
+        "status": "OPEN",
+        "taxes_paid": 20.95
+    },
+    {
+        "order_id": "ORD-F8DD-RELIANCE.NS",
+        "symbol": "RELIANCE.NS",
+        "quantity": 5,
+        "avg_price": 1407.5,
+        "action": "SELL",
+        "timestamp": "2026-01-21 13:18:23.709067",
+        "status": "OPEN",
+        "taxes_paid": 30.47
+    },
+    {
+        "order_id": "ORD-1540-INFY.NS",
+        "symbol": "INFY.NS",
+        "quantity": 2,
+        "avg_price": 1650.800048828125,
+        "action": "SELL",
+        "timestamp": "2026-01-21 13:18:24.117884",
+        "status": "OPEN",
+        "taxes_paid": 22.13
+    },
+    {
+        "order_id": "ORD-212C-HDFCBANK.NS",
+        "symbol": "HDFCBANK.NS",
+        "quantity": 1,
+        "avg_price": 925.4500122070312,
+        "action": "SELL",
+        "timestamp": "2026-01-21 13:18:24.355954",
+        "status": "OPEN",
+        "taxes_paid": 16.82
+    },
+    {
+        "order_id": "ORD-D817-RELIANCE.NS",
+        "symbol": "RELIANCE.NS",
+        "quantity": 1,
+        "avg_price": 1408.300048828125,
+        "action": "SELL",
+        "timestamp": "2026-01-21 13:18:55.550616",
+        "status": "OPEN",
+        "taxes_paid": 17.9
+    },
+    {
+        "order_id": "ORD-6E8B-INFY.NS",
+        "symbol": "INFY.NS",
+        "quantity": 1,
+        "avg_price": 1651.800048828125,
+        "action": "SELL",
+        "timestamp": "2026-01-21 13:18:55.989125",
+        "status": "OPEN",
+        "taxes_paid": 18.44
+    },
+    {
+        "order_id": "ORD-3AF9-INFY.NS",
+        "symbol": "INFY.NS",
+        "quantity": 4,
+        "avg_price": 1651.4000244140625,
+        "action": "SELL",
+        "timestamp": "2026-01-21 13:19:27.704461",
+        "status": "OPEN",
+        "taxes_paid": 29.51
+    },
+    {
+        "order_id": "ORD-FBAA-HDFCBANK.NS",
+        "symbol": "HDFCBANK.NS",
+        "quantity": 5,
+        "avg_price": 925.0499877929688,
+        "action": "SELL",
+        "timestamp": "2026-01-21 13:19:27.894934",
+        "status": "OPEN",
+        "taxes_paid": 25.08
+    },
+    {
+        "order_id": "ORD-4996-INFY.NS",
+        "symbol": "INFY.NS",
+        "quantity": 5,
+        "avg_price": 1649.9000244140625,
+        "action": "SELL",
+        "timestamp": "2026-01-21 13:19:59.466306",
+        "status": "OPEN",
+        "taxes_paid": 33.18
+    },
+    {
+        "order_id": "ORD-F477-HDFCBANK.NS",
+        "symbol": "HDFCBANK.NS",
+        "quantity": 3,
+        "avg_price": 924.2999877929688,
+        "action": "SELL",
+        "timestamp": "2026-01-21 13:19:59.646067",
+        "status": "OPEN",
+        "taxes_paid": 20.94
+    },
+    {
+        "order_id": "ORD-5A8E-ADANIENT.NS",
+        "symbol": "ADANIENT.NS",
+        "quantity": 5,
+        "avg_price": 2049.699951171875,
+        "action": "SELL",
+        "timestamp": "2026-01-21 13:25:25.098333",
+        "status": "OPEN",
+        "taxes_paid": 37.64
+    },
+    {
+        "order_id": "ORD-D9B3-ADANIENT.NS",
+        "symbol": "ADANIENT.NS",
+        "quantity": 1,
+        "avg_price": 2048.699951171875,
+        "action": "SELL",
+        "timestamp": "2026-01-21 13:25:57.291425",
+        "status": "OPEN",
+        "taxes_paid": 19.33
+    },
+    {
+        "order_id": "ORD-A893-ADANIENT.NS",
+        "symbol": "ADANIENT.NS",
+        "quantity": 2,
+        "avg_price": 2049.39990234375,
+        "action": "SELL",
+        "timestamp": "2026-01-21 13:26:29.699532",
+        "status": "OPEN",
+        "taxes_paid": 23.91
+    },
+    {
+        "order_id": "ORD-9CB5-ADANIENT.NS",
+        "symbol": "ADANIENT.NS",
+        "quantity": 3,
+        "avg_price": 2048.800048828125,
+        "action": "SELL",
+        "timestamp": "2026-01-21 13:27:01.783147",
+        "status": "OPEN",
+        "taxes_paid": 28.48
+    },
+    {
+        "order_id": "ORD-435B-ADANIENT.NS",
+        "symbol": "ADANIENT.NS",
+        "quantity": 1,
+        "avg_price": 2051.0,
+        "action": "SELL",
+        "timestamp": "2026-01-21 13:27:34.051529",
+        "status": "OPEN",
+        "taxes_paid": 19.33
+    },
+    {
+        "order_id": "ORD-1520-ADANIENT.NS",
+        "symbol": "ADANIENT.NS",
+        "quantity": 4,
+        "avg_price": 2051.300048828125,
+        "action": "SELL",
+        "timestamp": "2026-01-21 13:28:05.891164",
+        "status": "OPEN",
+        "taxes_paid": 33.08
+    },
+    {
+        "order_id": "ORD-4E02-ADANIENT.NS",
+        "symbol": "ADANIENT.NS",
+        "quantity": 2,
+        "avg_price": 2050.800048828125,
+        "action": "SELL",
+        "timestamp": "2026-01-21 13:28:37.948311",
+        "status": "OPEN",
+        "taxes_paid": 23.91
+    },
+    {
+        "order_id": "ORD-FD3F-ADANIENT.NS",
+        "symbol": "ADANIENT.NS",
+        "quantity": 4,
+        "avg_price": 2051.0,
+        "action": "SELL",
+        "timestamp": "2026-01-21 13:29:09.724611",
+        "status": "OPEN",
+        "taxes_paid": 33.08
+    },
+    {
+        "order_id": "ORD-858D-ADANIENT.NS",
+        "symbol": "ADANIENT.NS",
+        "quantity": 4,
+        "avg_price": 2050.60009765625,
+        "action": "SELL",
+        "timestamp": "2026-01-21 13:29:41.904143",
+        "status": "OPEN",
+        "taxes_paid": 33.07
+    },
+    {
+        "order_id": "ORD-A568-RELIANCE.NS",
+        "symbol": "RELIANCE.NS",
+        "quantity": 2,
+        "avg_price": 1407.0,
+        "action": "SELL",
+        "timestamp": "2026-01-21 13:30:12.126757",
+        "status": "OPEN",
+        "taxes_paid": 21.04
+    },
+    {
+        "order_id": "ORD-0C9D-ICICIBANK.NS",
+        "symbol": "ICICIBANK.NS",
+        "quantity": 2,
+        "avg_price": 1351.0,
+        "action": "SELL",
+        "timestamp": "2026-01-21 13:30:12.969067",
+        "status": "OPEN",
+        "taxes_paid": 20.79
+    },
+    {
+        "order_id": "ORD-8530-RELIANCE.NS",
+        "symbol": "RELIANCE.NS",
+        "quantity": 4,
+        "avg_price": 1407.0,
+        "action": "SELL",
+        "timestamp": "2026-01-21 13:30:44.233533",
+        "status": "OPEN",
+        "taxes_paid": 27.32
+    },
+    {
+        "order_id": "ORD-13CB-ICICIBANK.NS",
+        "symbol": "ICICIBANK.NS",
+        "quantity": 2,
+        "avg_price": 1351.0999755859375,
+        "action": "SELL",
+        "timestamp": "2026-01-21 13:30:45.258207",
+        "status": "OPEN",
+        "taxes_paid": 20.79
+    },
+    {
+        "order_id": "ORD-E661-ICICIBANK.NS",
+        "symbol": "ICICIBANK.NS",
+        "quantity": 5,
+        "avg_price": 1351.699951171875,
+        "action": "SELL",
+        "timestamp": "2026-01-21 13:31:17.889358",
+        "status": "OPEN",
+        "taxes_paid": 29.85
+    },
+    {
+        "order_id": "ORD-C9E4-RELIANCE.NS",
+        "symbol": "RELIANCE.NS",
+        "quantity": 4,
+        "avg_price": 1406.5,
+        "action": "SELL",
+        "timestamp": "2026-01-21 13:32:22.046857",
+        "status": "OPEN",
+        "taxes_paid": 27.32
+    },
+    {
+        "order_id": "ORD-57A7-ICICIBANK.NS",
+        "symbol": "ICICIBANK.NS",
+        "quantity": 3,
+        "avg_price": 1351.0999755859375,
+        "action": "SELL",
+        "timestamp": "2026-01-21 13:32:22.955509",
+        "status": "OPEN",
+        "taxes_paid": 23.8
+    },
+    {
+        "order_id": "ORD-26EF-RELIANCE.NS",
+        "symbol": "RELIANCE.NS",
+        "quantity": 2,
+        "avg_price": 1406.0,
+        "action": "SELL",
+        "timestamp": "2026-01-21 13:32:54.380734",
+        "status": "OPEN",
+        "taxes_paid": 21.03
+    },
+    {
+        "order_id": "ORD-12F3-ICICIBANK.NS",
+        "symbol": "ICICIBANK.NS",
+        "quantity": 1,
+        "avg_price": 1350.9000244140625,
+        "action": "SELL",
+        "timestamp": "2026-01-21 13:32:55.555867",
+        "status": "OPEN",
+        "taxes_paid": 17.77
+    },
+    {
+        "order_id": "ORD-3FD7-RELIANCE.NS",
+        "symbol": "RELIANCE.NS",
+        "quantity": 5,
+        "avg_price": 1405.0,
+        "action": "SELL",
+        "timestamp": "2026-01-21 13:33:27.716585",
+        "status": "OPEN",
+        "taxes_paid": 30.44
+    },
+    {
+        "order_id": "ORD-F928-ICICIBANK.NS",
+        "symbol": "ICICIBANK.NS",
+        "quantity": 4,
+        "avg_price": 1350.9000244140625,
+        "action": "SELL",
+        "timestamp": "2026-01-21 13:33:28.379259",
+        "status": "OPEN",
+        "taxes_paid": 26.82
+    },
+    {
+        "order_id": "ORD-C62E-RELIANCE.NS",
+        "symbol": "RELIANCE.NS",
+        "quantity": 4,
+        "avg_price": 1406.0,
+        "action": "SELL",
+        "timestamp": "2026-01-21 13:33:59.444606",
+        "status": "OPEN",
+        "taxes_paid": 27.31
+    },
+    {
+        "order_id": "ORD-4357-ICICIBANK.NS",
+        "symbol": "ICICIBANK.NS",
+        "quantity": 5,
+        "avg_price": 1351.4000244140625,
+        "action": "SELL",
+        "timestamp": "2026-01-21 13:34:00.150179",
+        "status": "OPEN",
+        "taxes_paid": 29.84
+    },
+    {
+        "order_id": "ORD-5E5A-RELIANCE.NS",
+        "symbol": "RELIANCE.NS",
+        "quantity": 1,
+        "avg_price": 1405.300048828125,
+        "action": "SELL",
+        "timestamp": "2026-01-21 13:34:31.176829",
+        "status": "OPEN",
+        "taxes_paid": 17.89
+    },
+    {
+        "order_id": "ORD-2422-ICICIBANK.NS",
+        "symbol": "ICICIBANK.NS",
+        "quantity": 3,
+        "avg_price": 1351.0,
+        "action": "SELL",
+        "timestamp": "2026-01-21 13:34:32.311929",
+        "status": "OPEN",
+        "taxes_paid": 23.8
+    },
+    {
+        "order_id": "ORD-EF1A-SBIN.NS",
+        "symbol": "SBIN.NS",
+        "quantity": 2,
+        "avg_price": 1029.050048828125,
+        "action": "SELL",
+        "timestamp": "2026-01-21 13:36:41.371314",
+        "status": "OPEN",
+        "taxes_paid": 19.35
+    },
+    {
+        "order_id": "ORD-3D33-SBIN.NS",
+        "symbol": "SBIN.NS",
+        "quantity": 3,
+        "avg_price": 1029.0999755859375,
+        "action": "SELL",
+        "timestamp": "2026-01-21 13:37:13.918088",
+        "status": "OPEN",
+        "taxes_paid": 21.65
+    },
+    {
+        "order_id": "ORD-B1DC-ICICIBANK.NS",
+        "symbol": "ICICIBANK.NS",
+        "quantity": 3,
+        "avg_price": 1354.0,
+        "action": "BUY",
+        "timestamp": "2026-01-21 13:39:20.276540",
+        "status": "OPEN",
+        "taxes_paid": 4.84
+    },
+    {
+        "order_id": "ORD-6B7A-INFY",
+        "symbol": "INFY",
+        "quantity": 10,
+        "avg_price": 1392.8006868827724,
+        "action": "BUY",
+        "timestamp": "2026-01-21 15:30:02.931969",
+        "status": "OPEN",
+        "taxes_paid": 16.6
+    },
+    {
+        "order_id": "ORD-F5EB-RELIANCE.NS",
+        "symbol": "RELIANCE.NS",
+        "quantity": 1,
+        "avg_price": 2500.0,
+        "action": "BUY",
+        "timestamp": "2026-01-23 14:17:56.148443",
+        "status": "OPEN",
+        "taxes_paid": 2.98
+    },
+    {
+        "order_id": "ORD-3D1D-RELIANCE",
+        "symbol": "RELIANCE",
+        "quantity": 1,
+        "avg_price": 2400.0,
+        "action": "SELL",
+        "timestamp": "2026-01-23 18:43:57.953445",
+        "status": "OPEN",
+        "taxes_paid": 20.11,
+        "origin": "USER",
+        "stop_loss": 2470.0,
+        "target": 2455.0
+    },
+    {
+        "order_id": "ORD-8FCE-HDFCBANK",
+        "symbol": "HDFCBANK",
+        "quantity": 3,
+        "avg_price": 2852.3102805415606,
+        "action": "BUY",
+        "timestamp": "2026-01-24 01:14:36.080566",
+        "status": "OPEN",
+        "taxes_paid": 10.2,
+        "origin": "USER",
+        "stop_loss": 2890.0,
+        "target": 2915.0
+    },
+    {
+        "order_id": "ORD-24E7-RELIANCE",
+        "symbol": "RELIANCE",
+        "quantity": 1,
+        "avg_price": 2400.0,
+        "action": "BUY",
+        "timestamp": "2026-01-28 01:30:37.712097",
+        "status": "OPEN",
+        "taxes_paid": 2.86,
+        "origin": "USER",
+        "stop_loss": 2405.0,
+        "target": 2430.0
+    }
+]

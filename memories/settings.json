@@ -1,0 +1,5 @@
+{
+    "risk_per_trade": 2.0,
+    "trading_mode": "paper",
+    "telegram_enabled": false
+}

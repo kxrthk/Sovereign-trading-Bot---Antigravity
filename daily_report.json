@@ -1,0 +1,10 @@
+{
+    "date": "2026-01-25",
+    "grade": "D",
+    "insight": "Cowboy Mode detected. High manual interference puts the edge at risk.",
+    "stats": {
+        "trades": 3,
+        "manual": 3,
+        "bot": 0
+    }
+}

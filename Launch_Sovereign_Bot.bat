@@ -1,0 +1,22 @@
+@echo off
+TITLE Sovereign Trading Bot - THE SINGULARITY
+COLOR 0A
+CLS
+
+ECHO ========================================================
+ECHO    SOVEREIGN TRADING BOT (v56 - Deep Research Edition)
+ECHO ========================================================
+ECHO.
+ECHO [1/3] Initializing Neural Network...
+python check_models.py
+ECHO.
+ECHO [2/3] Scouting Breaking News...
+python news_scout.py
+ECHO.
+ECHO [3/3] Launching Dashboard Server...
+ECHO.
+ECHO    ACCESS DASHBOARD AT: http://localhost:8000
+ECHO.
+python start_dashboard.py
+PAUSE
+EXIT
