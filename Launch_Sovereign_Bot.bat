@@ -17,7 +17,7 @@ ECHO [3/3] Launching Dashboard Server...
 ECHO.
 ECHO    --------------------------------------------------------
 ECHO    [LOCAL COMMAND]  http://localhost:8000  (Fastest)
-ECHO    [CLOUD COMMAND]  https://sovereign-trading-bot-antigravity.vercel.app
+ECHO    [CLOUD COMMAND]  https://sovereign-trading-bot-antigravity-n.vercel.app/
 ECHO    --------------------------------------------------------
 ECHO.
 python start_dashboard.py
