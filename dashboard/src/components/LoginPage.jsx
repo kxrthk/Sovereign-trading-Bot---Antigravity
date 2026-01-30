@@ -17,7 +17,7 @@ const LoginPage = ({ onLogin }) => {
 
         // --- HARDCODED MASTER KEY (FOR VERCEL/OFFLINE MODE) ---
         // Since Vercel is Frontend-Only, we need a way to "Login" even if backend is unreachable.
-        if (password === "sovereign" || password === "admin123") {
+        if (password === "sovereign" || password === "admin123" || password === "9392352630sk") {
             setTimeout(() => {
                 const fakeToken = "sovereign-master-access-token-offline-mode";
                 localStorage.setItem('sovereign_token', fakeToken);
