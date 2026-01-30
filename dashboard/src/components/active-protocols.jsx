@@ -13,6 +13,7 @@ export default function ActiveProtocols() {
                 if (data.status === 'success') setRegime(data.regime);
             } catch (e) {
                 console.error("Regime fetch error", e);
+                setRegime("OFFLINE");
             }
         };
         fetchRegime();
