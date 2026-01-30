@@ -68,3 +68,29 @@ pm2 startup
 
 **MISSION COMPLETE.** 🚀
 The bot is now creating its own destiny in the cloud.
+
+---
+
+## 💰 Cost & Future Proofing
+**"Is it free forever?"**
+
+### 1. AWS Free Tier
+- **Duration**: 12 Months (usually).
+- **Limit**: 750 hours/month of `t2.micro` or `t3.micro`.
+- **After 12 Months**: Approx $8 - $10 USD / month.
+
+### 2. The "Always Free" Alternative: Oracle Cloud
+If you want **$0 Forever**, Oracle Cloud offers an "Always Free" tier (ARM Ampere instances).
+- **Pros**: Stronger CPU (4 OCPU, 24GB RAM), Free forever.
+- **Cons**: Slightly harder to sign up (verification is strict).
+- **Migration**: The `update_aws.sh` script works there too (just install git/python).
+
+### 3. Portability
+Your bot is **100% Code**. It is not locked to AWS.
+You can move it to:
+- DigitalOcean ($4/mo)
+- Google Cloud
+- Your old laptop in a closet
+- Raspberry Pi ($50 one-time)
+
+**Recommendation**: Enjoy AWS for the first year. If the bot makes profit, $8/mo is negligible. If not, move to Oracle.
