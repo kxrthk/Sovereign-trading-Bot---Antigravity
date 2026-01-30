@@ -26,6 +26,18 @@ import VoiceControl from './components/VoiceControl';
 import LoginPage from './components/LoginPage';
 import axios from 'axios';
 
+// --- GLOBAL API CONFIGURATION ---
+// 1. If running locally (localhost:8000), use relative path (Fast).
+// 2. If running on Vercel/Cloud, connect to the Laptop via Ngrok.
+const isLocal = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
+const NGROK_URL = "https://densimetrically-nontortuous-emerson.ngrok-free.dev";
+
+axios.defaults.baseURL = isLocal ? "" : NGROK_URL;
+
+console.log(`[SYSTEM] API Mode: ${isLocal ? "LOCAL (Direct)" : "REMOTE (Ngrok Bridge)"}`);
+console.log(`[SYSTEM] Target Brain: ${axios.defaults.baseURL || "localhost"}`);
+
+
 // Configure Axios Default Logic for Token
 const setupAxiosInterceptors = (onUnauth) => {
     // Add Token to every request if exists
