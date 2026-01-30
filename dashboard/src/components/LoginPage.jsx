@@ -45,7 +45,7 @@ const LoginPage = ({ onLogin }) => {
             onLogin(token);
         } catch (err) {
             console.error("Login failed:", err);
-            setError("Access Denied: Invalid Credentials (Try 'sovereign' or '9392352630sk')");
+            setError("Access Denied: Invalid Credentials");
         } finally {
             setLoading(false);
         }
