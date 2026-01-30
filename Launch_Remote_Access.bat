@@ -11,7 +11,7 @@ ECHO [INFO] Use that link on your mobile to access the dashboard.
 ECHO.
 ECHO [IMPORTANT] If this is your first time, you may need to login.
 ECHO [TIP]  Sign up at https://dashboard.ngrok.com/signup for a free token.
-ECHO        Then run: ngrok config add-authtoken <TOKEN>
+ECHO        Then run: ngrok config add-authtoken ^<TOKEN^>
 ECHO.
 ECHO [STARTING TUNNEL...]
 ECHO.
