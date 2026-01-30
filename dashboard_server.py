@@ -161,8 +161,19 @@ class ManualOrder(BaseModel):
     target: float = None
 
 @app.post("/api/manual_trade")
-def execute_manual_trade(order: ManualOrder, current_user: str = Depends(get_current_user)):
-    print(f"[API] Manual Trade Request: {order}")
+def execute_manual_trade(order: ManualOrder, force: bool = False, current_user: str = Depends(get_current_user)):
+    print(f"[API] Manual Trade Request: {order}, Force Override: {force}")
+    
+    # 1. Market Hours Check
+    from utils.market_hours import MarketSchedule
+    if not MarketSchedule.is_market_open(force_override=force):
+        status_msg = MarketSchedule.get_status_message()
+        print(f"[API] Trade Rejected: Market is {status_msg}")
+        return {
+            "status": "error", 
+            "message": f"Market Offline: {status_msg}. Use 'Force Execute' if testing."
+        }
+
     try:
         # Forward to Mock Broker
         result = manual_broker.place_order(
@@ -602,6 +613,8 @@ def get_status(current_user: str = Depends(get_current_user)):
                      risk_status_msg = s
         except: pass
 
+    from utils.market_hours import MarketSchedule
+    status_data['market_status'] = MarketSchedule.get_status_message()
     status_data['risk_status'] = risk_status_msg
     status_data['latest_oracle_confidence'] = 0.85
     status_data['trading_mode'] = current_settings['trading_mode']

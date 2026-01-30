@@ -92,6 +92,16 @@ def run_auto_pilot():
                 time.sleep(60)
                 continue
 
+            # MARKET HOURS CHECK (New Hibernation Logic)
+            from utils.market_hours import MarketSchedule
+            if not MarketSchedule.is_market_open():
+                status = MarketSchedule.get_status_message()
+                sleep_seconds = MarketSchedule.seconds_until_open()
+                print(f"[HIBERNATE] Market is {status}. Sleeping for {sleep_seconds/3600:.1f} hours...")
+                time.sleep(sleep_seconds) 
+                print("[WAKE UP] Market Open Detected! Resuming Patrol...")
+                continue
+
             # REGIME CHECK (The Weather)
             regime = get_market_regime()
             if regime == "CRASH":
