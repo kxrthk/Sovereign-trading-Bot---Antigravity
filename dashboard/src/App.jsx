@@ -30,7 +30,7 @@ import axios from 'axios';
 // 1. If running locally (localhost:8000), use relative path (Fast).
 // 2. If running on Vercel/Cloud, connect to the Laptop via Ngrok.
 const isLocal = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
-const NGROK_URL = "https://densimetrically-nontortuous-emerson.ngrok-free.dev";
+const NGROK_URL = "https://densimetrically-nontortuous-emerson.ngrok-free.dev"; // Ver: 16:15 FORCE UPDATE
 
 axios.defaults.baseURL = isLocal ? "" : NGROK_URL;
 
