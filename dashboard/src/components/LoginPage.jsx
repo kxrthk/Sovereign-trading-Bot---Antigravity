@@ -15,6 +15,19 @@ const LoginPage = ({ onLogin }) => {
         setLoading(true);
         setError(null);
 
+        // --- HARDCODED MASTER KEY (FOR VERCEL/OFFLINE MODE) ---
+        // Since Vercel is Frontend-Only, we need a way to "Login" even if backend is unreachable.
+        if (password === "sovereign" || password === "admin123") {
+            setTimeout(() => {
+                const fakeToken = "sovereign-master-access-token-offline-mode";
+                localStorage.setItem('sovereign_token', fakeToken);
+                onLogin(fakeToken);
+                setLoading(false);
+            }, 800); // Fake Loading Delay
+            return;
+        }
+
+        // --- REAL BACKEND AUTH ---
         // Prepare OAuth2 form data (URL Encoded)
         const formData = new URLSearchParams();
         formData.append('username', username);
@@ -32,7 +45,7 @@ const LoginPage = ({ onLogin }) => {
             onLogin(token);
         } catch (err) {
             console.error("Login failed:", err);
-            setError("Access Denied: Invalid Credentials");
+            setError("Access Denied: Invalid Credentials (Try 'sovereign')");
         } finally {
             setLoading(false);
         }
