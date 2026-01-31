@@ -1,6 +1,6 @@
-import os
 import json
 import time
+import feedparser
 from duckduckgo_search import DDGS
 from google import genai
 from dotenv import load_dotenv
@@ -53,22 +53,39 @@ class DeepResearchAgent:
                  self.client = key_rotator.get_client()
             return "Analysis Failed."
 
-        # Step 2: The Hunt (Search)
+        # Step 2: The Hunt (Hybrid Search: DuckDuckGo + Google News)
         findings = []
         ddgs = DDGS()
         
         for q in questions:
-            print(f"   [HUNT] Searching: {q}...", end=" ")
+            print(f"   [HUNT] Searching: {q}...")
+            
+            # Source A: DuckDuckGo (Web)
             try:
                 results = ddgs.text(q, max_results=2)
                 if results:
                     summary = results[0]['body']
-                    findings.append(f"Q: {q}\nA: {summary}")
-                    print("[OK] Found Intel.")
-                else:
-                    print("[X] Dead End.")
+                    findings.append(f"[Source: DuckDuckGo] Q: {q}\nA: {summary}")
+                    print("      -> [DDG] Found Web Intel.")
             except Exception as e:
-                print(f"[X] Error: {e}")
+                print(f"      -> [DDG] Failed: {e}")
+
+            # Source B: Google News (Realtime RSS Search)
+            try:
+                # Encoded query for URL
+                encoded_q = q.replace(" ", "%20")
+                g_url = f"https://news.google.com/rss/search?q={encoded_q}&hl=en-US&gl=US&ceid=US:en"
+                feed = feedparser.parse(g_url)
+                if feed.entries:
+                    # Get top entry
+                    top_story = feed.entries[0]
+                    findings.append(f"[Source: Google News] Q: {q}\nA: {top_story.title} - {top_story.link}")
+                    print("      -> [Google] Found Fresh News.")
+            except Exception as e:
+                print(f"      -> [Google] Failed: {e}")
+
+            if not findings:
+                 print("      -> [X] Dead End on both engines.")
                 
         full_intel = "\n\n".join(findings)
         
