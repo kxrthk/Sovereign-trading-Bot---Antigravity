@@ -7,6 +7,10 @@ export default defineConfig({
   server: {
     host: '0.0.0.0',
     port: 5173,
+    proxy: {
+      '/api': 'http://localhost:8000',
+      '/token': 'http://localhost:8000'
+    }
   },
   build: {
     sourcemap: false, // SECURITY: Hide source code in production

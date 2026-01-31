@@ -6,11 +6,48 @@ from textblob import TextBlob
 import config
 
 # TRUER DATA SOURCES (RSS)
+try:
+    from bank_watcher import BankWatcher
+    from social_scout import SocialScout
+    SUPER_INTEL_ACTIVE = True
+except ImportError:
+    SUPER_INTEL_ACTIVE = False
+
+# TRUER DATA SOURCES (RSS)
 RSS_FEEDS = {
+    # --- GENERAL MARKET NEWS ---
     "MONEYCONTROL": "https://www.moneycontrol.com/rss/latestnews.xml",
     "ECONOMICTIMES": "https://economictimes.indiatimes.com/markets/rssfeeds/1977021501.cms",
-    "CNBC": "https://search.cnbc.com/rs/search/combinedcms/view.xml?partnerId=wrss01&id=10000664",
-    "REUTERS_BUSINESS": "http://feeds.reuters.com/reuters/businessNews"
+    "CNBC_GLOBAL": "https://search.cnbc.com/rs/search/combinedcms/view.xml?partnerId=wrss01&id=10000664",
+    "REUTERS_BIZ": "http://feeds.reuters.com/reuters/businessNews",
+    
+    # --- INDIAN POLITY & ECONOMY (HOME BASE) ---
+    "TOI_INDIA": "https://timesofindia.indiatimes.com/rssfeeds/-2128936835.cms",
+    "ET_ECONOMY": "https://economictimes.indiatimes.com/news/economy/rssfeeds/1373380680.cms",
+    "THE_HINDU_NAT": "https://www.thehindu.com/news/national/feeder/default.rss",
+    "NDTV_TOP": "https://feeds.feedburner.com/ndtvnews-top-stories",
+    
+    # --- SUPER-INTELLIGENCE MODULES ---
+    # --- GEOPOLITICS & GLOBAL MACRO ---
+    "ALJAZEERA_BIZ": "https://www.aljazeera.com/xml/rss/all.xml", # Broad global coverage often catching what western media misses
+    "BBC_WORLD": "http://feeds.bbci.co.uk/news/world/rss.xml",
+    "BBC_BIZ": "http://feeds.bbci.co.uk/news/business/rss.xml",
+    "UN_NEWS": "https://news.un.org/feed/subscribe/en/news/all/rss.xml", # Primary source for sanctions/UN resolutions
+    
+    # --- INVESTOR INTELLIGENCE ---
+    "INVESTING_COM": "https://www.investing.com/rss/news.rss",
+    "MARKETWATCH": "http://feeds.marketwatch.com/marketwatch/topstories/",
+    "YAHOO_FINANCE": "https://finance.yahoo.com/news/rssindex",
+    
+    # --- TECH & FUTURE ---
+    "TECHCRUNCH": "https://techcrunch.com/feed/",
+    "WIRED_BIZ": "https://www.wired.com/feed/category/business/latest/rss",
+    
+    # --- COMMODITIES & RESOURCES ---
+    "KITCO_GOLD": "https://www.kitco.com/rss/category/commodities/gold",
+    "KITCO_SILVER": "https://www.kitco.com/rss/category/commodities/silver",
+    "OILPRICE": "https://oilprice.com/rss/main",
+    "MINING_COM": "https://www.mining.com/feed/" # Critical for Lithium/Copper/Rare Earths
 }
 
 NEWS_DIR = os.path.join("training_raw", "news")
@@ -107,10 +144,38 @@ def scout_news():
                 # Filter Logic: Only interested in "Business/Market" keywords? 
                 # For now, we take all "Markets" feeds as relevant.
                 
+                # Tagging Logic
+                tags = []
+                title_upper = title.upper()
+                summary_upper = summary.upper()
+                combined_text = title_upper + " " + summary_upper
+                
+                if "GOLD" in combined_text or "XAU" in combined_text: tags.append("[GOLD]")
+                if "SILVER" in combined_text or "XAG" in combined_text: tags.append("[SILVER]")
+                if "COPPER" in combined_text: tags.append("[COPPER]")
+                if "LITHIUM" in combined_text or "RARE EARTH" in combined_text: tags.append("[RARE_EARTH]")
+                if "ETF" in combined_text: tags.append("[ETF]")
+                if "OIL" in combined_text or "CRUDE" in combined_text or "OPEC" in combined_text: tags.append("[OIL]")
+                
+                # Global Macro Tags
+                if "WAR" in combined_text or "CONFLICT" in combined_text or "MILITARY" in combined_text: tags.append("[WAR]")
+                if "SANCTION" in combined_text or "EMBARGO" in combined_text: tags.append("[SANCTIONS]")
+                if "TRADE DEAL" in combined_text or "TARIFF" in combined_text or "AGREEMENT" in combined_text: tags.append("[TRADE]")
+                if "ELECTION" in combined_text or "VOTE" in combined_text: tags.append("[POLITICS]")
+                if "AI " in combined_text or "ARTIFICIAL INTELLIGENCE" in combined_text or "CHIP" in combined_text: tags.append("[TECH]")
+
+                # Indian Context Tags (Home Base)
+                if "INDIA" in combined_text or "BHARAT" in combined_text or "DELHI" in combined_text: tags.append("[INDIA]")
+                if "RBI" in combined_text or "RESERVE BANK" in combined_text or "REPO RATE" in combined_text: tags.append("[RBI]")
+                if "NIFTY" in combined_text or "SENSEX" in combined_text or "ADANI" in combined_text or "RELIANCE" in combined_text: tags.append("[MARKET_IN]")
+                if "BUDGET" in combined_text or "GST" in combined_text or "FINANCE MINISTER" in combined_text or "SITHARAMAN" in combined_text: tags.append("[POLICY]")
+
+                tag_str = "".join(tags)
+
                 # Save as Knowledge
                 # Format: NEWS_{Source}_{Date}_{TitleTrunc}.txt
                 safe_title = "".join([c for c in title if c.isalnum() or c==' '])[:30].replace(" ", "_")
-                filename = f"NEWS_{source}_{safe_title}.txt"
+                filename = f"NEWS_{source}_{tag_str}_{safe_title}.txt"
                 filepath = os.path.join(NEWS_DIR, filename)
                 
                 # Content for LLM
@@ -140,9 +205,35 @@ def scout_news():
     print("[DEEP RESEARCH] notifying Librarian...")
     
     # Auto-Index
+    # Auto-Index & Compile RAG
+    # Auto-Index & Compile RAG
     try:
         import librarian
-        librarian.get_knowledge_base() 
+        
+        # SUPER-INTELLIGENCE SCANS (Phase 1 Trigger)
+        if SUPER_INTEL_ACTIVE:
+            print("\n[SUPER-INTEL] Engaging Specialized Agents...")
+            try:
+                # 1. Bank Watcher
+                hawk = BankWatcher()
+                alerts = hawk.scan_central_banks()
+                if alerts:
+                    # Save Alerts as Urgent News
+                    with open(os.path.join(NEWS_DIR, f"BANK_ALERT_{int(time.time())}.txt"), "w") as f:
+                        f.write("\n".join(alerts))
+                        
+                # 2. Social Scout
+                scout = SocialScout()
+                trends = scout.scan_social_sentiment()
+                if trends:
+                    # Save Trends
+                    with open(os.path.join(NEWS_DIR, f"SOCIAL_SENTIMENT_{int(time.time())}.txt"), "w") as f:
+                        f.write("\n".join(trends))
+                        
+            except Exception as e:
+                print(f"   [INTEL ERR] {e}")
+
+        librarian.ingest_daily_briefing()
     except Exception as e:
         print(f"   [LIBRARIAN ERROR] {e}")
 

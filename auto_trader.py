@@ -49,6 +49,7 @@ from oracle import Oracle
 from mock_broker import MockDhanClient
 from dhan_broker import DhanBroker
 from risk_manager import RiskManager
+import news_scout # Global Intelligence
 import config
 import time
 import datetime
@@ -78,6 +79,10 @@ def run_auto_pilot():
     
     print(f"[AUTO-PILOT] Patrol Mode: Monitoring {len(watchlist)} assets: {watchlist}")
     
+    # News Loop Config
+    news_interval = 3600 # 1 Hour (Automated Intel)
+    last_news_time = 0 # Forces immediate run on first loop
+    
     try:
         while True:
             # SAFETY CHECK: Master Switch (Pause Logic)
@@ -85,6 +90,27 @@ def run_auto_pilot():
                  print(f"[PAUSED] Master Switch is OFF. Standing by... {datetime.datetime.now().strftime('%H:%M:%S')}", end='\r')
                  time.sleep(5)
                  continue
+
+            # GLOBAL INTEL CHECK (Runs every 4 hours or on startup)
+            if time.time() - last_news_time > news_interval:
+                print(f"\n[INTEL] {datetime.datetime.now().strftime('%H:%M')} - Auto-Scouting Global News...")
+                try:
+                    # 1. Gather News (The Eyes)
+                    news_scout.scout_news()
+                    
+                    # 2. Synthesize World View (The Brain)
+                    print("[CORTEX] Synthesizing Global World View...")
+                    try:
+                        import cortex
+                        brain = cortex.Cortex()
+                        brain.synthesize_world_view()
+                    except Exception as ce:
+                        print(f"[CORTEX ERROR] Failed to think: {ce}")
+
+                    print("[INTEL] Briefing Complete. Resuming Patrol.")
+                    last_news_time = time.time()
+                except Exception as e:
+                    print(f"[INTEL ERR] News Scout failed: {e}")
 
             # RISK CHECK (Stateful)
             if not risk_manager.can_trade():
@@ -124,18 +150,24 @@ def run_auto_pilot():
                         live_settings = json.load(f)
                 except: pass
 
-                # 1. Consult the Oracle
+                # 1. Convene The Council (Super-Intelligence)
                 try:
-                    analysis = oracle.analyze(symbol)
+                    # Lazy Import to avoid circular dep issues during init
+                    from council import Council
+                    if 'council' not in locals():
+                         council = Council()
+                    
+                    # The Ruling
+                    analysis = council.convene(symbol)
                     
                     signal = analysis.get('signal', 'HOLD')
                     confidence = analysis.get('confidence', 0.0)
                     price = analysis.get('price', 0.0)
-                    reason = analysis.get('reason', 'Analysis Complete')
+                    reason = analysis.get('reason', 'Council Ruling')
                     
                     # 2. Decision Gate (Adaptive)
                     if signal != "HOLD" and confidence >= min_conf:
-                        print(f"   >>> SIGNAL DETECTED: {signal} {symbol} ({reason})")
+                        print(f"   >>> COUNCIL RULING: {signal} {symbol} ({reason})")
                         
                         # Filter: Chop Mode (Low Volatility) -> Only take very high confidence or Skip?
                         # For now, we trust the Oracle, but maybe increase min_conf?
@@ -183,7 +215,7 @@ def run_auto_pilot():
                         # print(f"   [WAIT] {symbol}: {signal} ({confidence:.2f})")
                 
                 except Exception as e:
-                    print(f"   [ERR] Failed to analyze {symbol}: {e}")
+                    print(f"   [ERR] Council Failed for {symbol}: {e}")
 
                 # Tiny pause to be polite to the API (Round Robin Breath)
                 time.sleep(1)

@@ -110,10 +110,23 @@ class Oracle:
                     import model_factory
                     from market_regime import get_market_regime
 
-                    # --- DYNAMIC KNOWLEDGE SWITCHING (The Context Switch) ---
+                     # --- DYNAMIC KNOWLEDGE SWITCHING (The Context Switch) ---
                     current_regime = get_market_regime()
                     
-                    # Logic: Only reload if regime changes significantly or if first load
+                    # --- CORTEX INTEGRATION (The World View) ---
+                    world_view_path = os.path.join("memories", "world_view.json")
+                    world_view = {}
+                    if os.path.exists(world_view_path):
+                        try:
+                            with open(world_view_path, 'r') as f:
+                                world_view = json.load(f)
+                        except: pass
+                    
+                    # CORTEX OVERRIDE: If DANGER, we halt immediately.
+                    if world_view.get("risk_level") == "DANGER":
+                         print(f"[ORACLE] 🛑 CORTEX OVERRIDE: World Risk is DANGER. Halting.")
+                         return {"signal": "HOLD", "confidence": 0.0, "reason": f"Cortex Halt: {world_view.get('reasoning')}", "price": price}
+
                     # We store 'last_regime' in self to track state
                     if not hasattr(self, 'last_regime'): self.last_regime = None
                     
@@ -131,6 +144,8 @@ class Oracle:
                          vol_val = last_row['Volatility'].iloc[0]
                          
                          prompt = (
+                             f"Global Context (The Cortex): Sentiment {world_view.get('sentiment_score', 0)}/10. "
+                             f"Insight: {world_view.get('reasoning', 'No Data')}. "
                              f"Market Data: Price {price}, RSI {rsi_val:.2f}, Volatility {vol_val:.4f}. "
                              f"The Random Forest Model predicts: {'BUY' if prediction == 1 else 'WAIT'} with {confidence:.2f} confidence. "
                          )

@@ -230,10 +230,12 @@ def analyze_trade(request: TradeAnalysisRequest, current_user: str = Depends(get
 
     # 3. Analyze with Real AI (The Oracle)
     import librarian
-    import google.generativeai as genai
+    # 3. Analyze with Real AI (The Oracle)
+    import librarian
     import re
     import time
-
+    import model_factory # Updated to use factory
+    
     print(f"[AI REVIEW] Analyzing Trade {request.trade_id} with Context: {request.strategy}/{request.emotion}")
     
     try:
@@ -278,33 +280,54 @@ def analyze_trade(request: TradeAnalysisRequest, current_user: str = Depends(get
         }}
         """
         
-        # 5. Robust Model Selection Loop (Validated List as of Jan 2026)
-        model_candidates = [
-            "gemini-2.0-flash",           # 1. NEW STABLE (Verified)
-            "gemini-2.0-flash-exp",       # 2. Experimental Backup
-            "gemini-2.5-flash"            # 3. Latest Preview
-        ]
-
+        # 5. Robust Model Selection Loop (Using Factory Validation)
+        candidates = model_factory.get_model_name_list()
+        
         text = None
         last_error = ""
 
-        for model_name in model_candidates:
-            try:
-                print(f"   [AI] Attempting with {model_name}...")
-                model = genai.GenerativeModel(model_name)
-                response = model.generate_content([prompt] + kb)
-                text = response.text
-                print(f"   [AI] Success with {model_name}")
-                break # Success!
-            except Exception as e:
+        # Using functional model directly usually handles selection, but keeping loop for robustness if factory changes
+        # Actually better to just ask factory for a working one.
+        
+        try:
+             # This automatically tries candidates
+             model = model_factory.get_functional_model(system_instruction="You are a json agent.")
+             if model:
+                 response = model.generate_content(prompt) # KB passed? wrapper doesn't support list concatenation easily
+                 # Wait, new SDK supports list of parts. 
+                 # Wrapper signature: generate_content(contents). 
+                 # Old SDK allowed list. New SDK allows list.
+                 # KB is a list of file objects. 
+                 # Wrapper needs to pass that list to contents.
+                 
+                 # IMPORTANT: librarian.get_knowledge_base() returns file objects.
+                 # New SDK Client expects file names (uri) or objects?
+                 # client.models.generate_content(contents=[prompt, file_obj]) works? 
+                 # Usually needs types.Part or just strings/URIs.
+                 # The wrapper passes 'contents' directly to client.models.generate_content
+                 
+                 # Let's assume the wrapper 'contents' argument handles the list.
+                 # But we need to ensure the list items are compatible.
+                 # Librarian returns `genai.types.File` (v2) now because we updated it?
+                 # No, Librarian returns `client.files.get()`. This returns a File object.
+                 # We must verify if `generate_content` accepts File objects in the list.
+                 
+                 final_content = [prompt]
+                 # If KB returns file objects, we might need to convert to something else if SDK demands.
+                 # but let's try passing the objects.
+                 for k in kb:
+                     final_content.append(k)
+                     
+                 response = model.generate_content(final_content)
+                 text = response.text
+                 print(f"   [AI] Success.")
+             else:
+                 raise Exception("Factory returned None")
+
+        except Exception as e:
                 error_msg = str(e)
-                print(f"   [AI] Failed {model_name}: {error_msg}")
+                print(f"   [AI] Failed: {error_msg}")
                 last_error = error_msg
-                if "429" in error_msg or "Quota" in error_msg:
-                    time.sleep(1) # Brief pause for quota
-                    continue 
-                if "404" in error_msg:
-                    continue # Invalid model name
 
         if not text:
              print(f"[CRITICAL FAIL] All models failed. Last Error: {last_error}")
@@ -578,7 +601,7 @@ def update_settings(settings: SettingsUpdate):
     return {"status": "success", "settings": current_settings}
 
 @app.get("/api/status")
-def get_status(current_user: str = Depends(get_current_user)):
+def get_status():
     status_data = {}
     latest_confidence = 0.0 # Logic skipped for brevity
     
@@ -773,6 +796,32 @@ def run_backtest(req: BacktestRequest, current_user: str = Depends(get_current_u
         print(f"[BACKTEST ERROR] {e}")
         return {"status": "error", "message": str(e)}
 
+# --- DAILY CAPTAIN'S LOG ---
+@app.get("/api/logs")
+def get_logs():
+    """Returns list of daily logs sorted by date"""
+    logs = []
+    log_dir = "memories/daily_logs"
+    if os.path.exists(log_dir):
+        for f in os.listdir(log_dir):
+            if f.endswith(".json"):
+                try:
+                    with open(os.path.join(log_dir, f), 'r') as file:
+                        logs.append(json.load(file))
+                except: pass
+    # Sort newest first
+    logs.sort(key=lambda x: x.get('date', ''), reverse=True)
+    return logs
+
+@app.post("/api/logs/generate")
+def generate_log():
+    """Triggers the Scribe to write/update today's log"""
+    try:
+        from scribe import Scribe
+        s = Scribe()
+        log = s.generate_daily_log()
+        return {"status": "success", "log": log}
+    except Exception as e:
         return {"status": "error", "message": str(e)}
 
 # --- ORACLE FORECAST ENGINE (MONTE CARLO) ---

@@ -1,0 +1,18 @@
+{
+    "sentiment_score": 0,
+    "risk_level": "CAUTION",
+    "regime": "RANGING",
+    "sector_watch": [
+        "Defense",
+        "Energy"
+    ],
+    "avoid": [
+        "High Beta Tech"
+    ],
+    "reasoning": "Global markets are cautious awaiting key economic data. Middle East tensions keep Energy in play.",
+    "top_themes": [
+        "Inflation",
+        "Geopolitics"
+    ],
+    "timestamp": 1738321000
+}

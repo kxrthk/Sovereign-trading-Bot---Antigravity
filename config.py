@@ -78,4 +78,24 @@ WEB_USERNAME = os.getenv("WEB_USERNAME", "admin")
 WEB_PASSWORD = get_secure("WEB_PASSWORD", "9392352630sk")
 
 # --- AI BRAIN ---
-GEMINI_API_KEY = get_secure("GEMINI_API_KEY", "")
+# --- AI BRAIN ---
+# Prioritize GOOGLE_API_KEY if available (Standard v2 SDK env var)
+# Try Global Google Key first (decrypted)
+_g_key_raw = os.getenv("GOOGLE_API_KEY")
+if _g_key_raw and _g_key_raw.lower() in ["no", "none", "", "null"]: _g_key_raw = None # Filter garbage
+
+if _g_key_raw and _g_key_raw.startswith("ENC:"):
+    try:
+        from crypto_vault import decrypt_secret
+        _g_key = decrypt_secret(_g_key_raw[4:])
+    except:
+        _g_key = _g_key_raw
+else:
+    _g_key = _g_key_raw
+
+_gem_key = get_secure("GEMINI_API_KEY", "")
+
+if _g_key:
+    GEMINI_API_KEY = _g_key
+else:
+    GEMINI_API_KEY = _gem_key

@@ -1,19 +1,25 @@
 import os
 import json
 import time
-import google.generativeai as genai
+import os
+import json
+import time
 from dotenv import load_dotenv
+from google import genai
 
 import config # Use Central Config for Decryption
 
+# --- CLIENT INIT ---
 api_key = config.GEMINI_API_KEY
-
-if not api_key:
-    # Fallback to local .env if persistent missing
-    pass 
-
+client = None
 if api_key:
-    genai.configure(api_key=api_key)
+    if api_key.startswith("ENC:"):
+         from crypto_vault import decrypt_secret
+         api_key = decrypt_secret(api_key[4:])
+    try:
+        client = genai.Client(api_key=api_key)
+    except Exception as e:
+        print(f"[LIBRARIAN] Client Init Error: {e}")
 
 # CONFIGURATION
 # Supports multiple formats for robust knowledge base
@@ -114,16 +120,17 @@ def get_knowledge_base(tags=None, regime=None):
             
             # VERIFY: Is the file still alive on Google's server?
             try:
-                # We interpret the URI name to get the file object
-                # Usually uri is 'files/xxxx'
-                remote_file = genai.get_file(uri)
+                # v2 SDK: client.files.get(name=...)
+                remote_file = client.files.get(name=uri)
                 
                 # Check state (ACTIVE means ready, PROCESSING means wait)
-                if remote_file.state.name == "ACTIVE":
+                # v2 SDK: state is an enum? or string? usually remote_file.state is enough comparison
+                # Safest to print and check, but standard is similar.
+                if str(remote_file.state) == "State.ACTIVE" or str(remote_file.state) == "ACTIVE":
                     print(f"   [CACHE] Using Cached: {filename}")
                     active_files.append(remote_file)
                     continue # Skip upload!
-                elif remote_file.state.name == "FAILED":
+                elif "FAILED" in str(remote_file.state):
                     print(f"   [FAIL] Cached file failed. Re-uploading: {filename}")
             except Exception:
                 print(f"   [EXPIRED] Cache expired for {filename}. Re-uploading...")
@@ -131,15 +138,16 @@ def get_knowledge_base(tags=None, regime=None):
         # 4. Upload (If new or expired)
         try:
             print(f"   [UP] Uploading New: {filename}...", end=" ")
-            uploaded_file = genai.upload_file(path=file_path, display_name=filename)
+            # v2 SDK: client.files.upload
+            uploaded_file = client.files.upload(file=file_path, config={'display_name': filename})
             
             # Wait for processing (Critical for big PDFs)
-            while uploaded_file.state.name == "PROCESSING":
+            while "PROCESSING" in str(uploaded_file.state):
                 print(".", end="")
                 time.sleep(1)
-                uploaded_file = genai.get_file(uploaded_file.name)
+                uploaded_file = client.files.get(name=uploaded_file.name)
                 
-            if uploaded_file.state.name == "ACTIVE":
+            if "ACTIVE" in str(uploaded_file.state):
                 print(" Ready.")
                 active_files.append(uploaded_file)
                 
@@ -239,9 +247,63 @@ def get_knowledge_text(tags=None):
             
     return context_text
 
+    return context_text
+
+def ingest_daily_briefing():
+    """
+    RAG AUTOMATION: Scans 'training_raw/news' for today's files, 
+    compiles them into a single 'DAILY_BRIEF_{Date}.md', 
+    and uploads it to Gemini.
+    """
+    today_str = time.strftime("%Y-%m-%d")
+    brief_filename = f"DAILY_INTELLIGENCE_BRIEF_{today_str}.md"
+    brief_path = os.path.join(KNOWLEDGE_DIR, brief_filename)
+    
+    # Check if already exists (Don't redo work for 5 mins)
+    if os.path.exists(brief_path):
+        print("[LIBRARIAN] Daily Brief already exists. Checking for updates...")
+        # (For now we skip overwrite to save tokens, user can manual delete if needed)
+        pass
+
+    news_dir = os.path.join(KNOWLEDGE_DIR, "news")
+    if not os.path.exists(news_dir): return
+
+    print(f"[LIBRARIAN] Compiling Daily Intelligence Dossier: {brief_filename}...")
+    
+    compiled_text = f"# SOVEREIGN TRADE INTELLIGENCE - {today_str}\n\n"
+    article_count = 0
+    
+    for filename in os.listdir(news_dir):
+        if filename.endswith(".txt"):
+            # Format: NEWS_{Source}_{Tags}_{Title}.txt
+            try:
+                with open(os.path.join(news_dir, filename), "r", encoding="utf-8") as f:
+                    content = f.read()
+                    
+                # Parse Tags from filename or content? Content has it.
+                compiled_text += f"\n## ARTICLE {article_count+1}: {filename}\n{content}\n"
+                compiled_text += "-"*50 + "\n"
+                article_count += 1
+            except Exception as e:
+                print(f"   [ERR] Skipping {filename}: {e}")
+                
+    if article_count == 0:
+        print("[LIBRARIAN] No news found to compile.")
+        return
+
+    # SAVE LOCAL MASTER COPY
+    with open(brief_path, "w", encoding="utf-8") as f:
+        f.write(compiled_text)
+        
+    print(f"[LIBRARIAN] Dossier Compiled ({article_count} reports). Uploading to Brain...")
+    
+    # TRIGGER UPLOAD via get_knowledge_base (It scans root folder, finds new .md, and uploads)
+    get_knowledge_base()
+
 if __name__ == "__main__":
     # Test Context Switch
     print("Testing Librarian Logic...")
     # get_knowledge_base(regime="CRASH")
+    # ingest_daily_briefing() # Test RAG
     print(get_knowledge_text())
 

@@ -1,7 +1,7 @@
 import os
 import itertools
-import google.generativeai as genai
-import anthropic
+from google import genai
+import time
 
 class KeyManager:
     def __init__(self):
@@ -16,14 +16,6 @@ class KeyManager:
         for i in range(2, 6): # Check GEMINI_API_KEY_2 ... _5
             k = os.getenv(f"GEMINI_API_KEY_{i}", "")
             if k: self.keys.append(k)
-            
-        # Hardcoded slots (will be replaced by agent when user provides keys)
-        self.hardcoded_keys = [
-            "AIzaSyDwQW_dROY_cG3-kufXDcfYCO50OMSg4fE",
-            "AIzaSyBuBGQtfaEc4Qbda76tzSjnA61DwI49USQ",
-            "AIzaSyBKgLnewvosKTVAavKJqnGA7y5QV0TqeuA"
-        ]
-        self.keys.extend(self.hardcoded_keys)
         
         # Deduplicate
         self.keys = list(set(self.keys))
@@ -31,51 +23,41 @@ class KeyManager:
         
         if not self.keys:
             print("[KEY MANAGER] ⚠️ No API Keys found!")
-            self.iterator = itertools.cycle([""])
+            self.iterator = itertools.cycle(["NO_KEY"])
         else:
             print(f"[KEY MANAGER] Loaded {len(self.keys)} API Keys.")
-            self.iterator = itertools.cycle(self.keys)
+            # Create a client for EACH key to be ready
+            self.clients = []
+            for k in self.keys:
+                try:
+                    # Handle Encrypted Keys
+                    if k.startswith("ENC:"):
+                        from crypto_vault import decrypt_secret
+                        k = decrypt_secret(k[4:])
+                    
+                    client = genai.Client(api_key=k)
+                    self.clients.append(client)
+                except Exception as e:
+                    print(f"[KEY MANAGER] Bad Key: {e}")
             
-        self.current_key = next(self.iterator)
-        self._configure_current()
+            if self.clients:
+                self.iterator = itertools.cycle(self.clients)
+            else:
+                self.iterator = itertools.cycle([None])
+            
+        self.current_client = next(self.iterator)
 
-        # --- ANTHROPIC INIT ---
-        self.anthropic_key = os.getenv("ANTHROPIC_API_KEY", "")
-        self.anthropic_client = None
-        if self.anthropic_key:
-            try:
-                self.anthropic_client = anthropic.Anthropic(api_key=self.anthropic_key)
-                print("[KEY MANAGER] [OK] Anthropic Client Initialized.")
-            except Exception as e:
-                print(f"[KEY MANAGER] [ERROR] Anthropic Init Failed: {e}")
-
-    def _configure_current(self):
-        if self.current_key:
-            # print(f"[KEY MANAGER] Switching to Key: ...{self.current_key[-4:]}")
-            genai.configure(api_key=self.current_key)
+    def get_client(self):
+        """Returns the current active client"""
+        return self.current_client
 
     def rotate_key(self):
-        """Switches to the next available key in the pool."""
-        if not self.keys: return False
+        """Switches to the next available client/key."""
+        if not self.clients: return False
         
-        prev_key = self.current_key
-        self.current_key = next(self.iterator)
-        
-        # If we cycled back to the same key, we are out of fresh keys
-        if len(self.keys) == 1:
-            print("[KEY MANAGER] Only 1 key available. Cannot rotate.")
-            return False
-            
-        print(f"[KEY MANAGER] 🔄 Rotating Key because of Quota...")
-        self._configure_current()
+        print(f"[KEY MANAGER] 🔄 Rotating API Key (Load Balancing)...")
+        self.current_client = next(self.iterator)
         return True
-
-    def get_model(self, model_name='gemini-2.0-flash'):
-        return genai.GenerativeModel(model_name)
-        
-    def get_anthropic(self):
-        """Returns the Anthropic Client instance (or None)"""
-        return self.anthropic_client
 
 # Global Instance
 key_rotator = KeyManager()

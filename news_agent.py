@@ -1,5 +1,5 @@
 import feedparser
-import google.generativeai as genai
+
 import os
 import json
 from duckduckgo_search import DDGS
@@ -9,15 +9,19 @@ import config # Use Central Config for Decryption
 
 api_key = config.GEMINI_API_KEY
 
-if not api_key:
-    # Use fallback
-    pass
-
-if api_key:
-    genai.configure(api_key=api_key)
+# Removed deprecated genai.configure. Relying on model_factory/client.
 
 import model_factory
+import model_factory
 model = model_factory.get_functional_model()
+
+# SUPER-INTELLIGENCE MODULES
+try:
+    from deep_research import DeepResearchAgent
+    from bank_watcher import BankWatcher
+except ImportError:
+    DeepResearchAgent = None
+    BankWatcher = None
 
 class NewsAgent:
     def __init__(self):
@@ -50,16 +54,48 @@ class NewsAgent:
 
     def _verify_truth(self, suspicious_headline):
         """
-        [INVESTIGATOR] Only runs when triggered
+        [INVESTIGATOR] Multi-Source Cross-Verification
         """
-        print(f"   [SEARCH] TRIGGERED: Verifying '{suspicious_headline[:40]}...'")
         try:
-            results = DDGS().text(suspicious_headline, max_results=3)
+            print(f"   [SEARCH] TRIGGERED: Verified Truth Search for '{suspicious_headline[:40]}...'")
+        except:
+             print("   [SEARCH] TRIGGERED: Verified Truth Search...")
+        evidence = []
+        try:
+            # 1. Primary Search
+            results = DDGS().text(suspicious_headline, max_results=4)
             if not results: return "No independent verification found."
             
-            # Combine snippets
-            evidence = "\n".join([f"- {r['title']} ({r['body'][:100]}...)" for r in results])
-            return evidence
+            # 2. Source Analysis
+            # STRICT AUTHENTICITY CHECK: Only Renowned Global Outlets
+            trusted_domains = [
+                'reuters.com', 'bloomberg.com', 'cnbc.com', 'wsj.com', 'ft.com', 
+                'mining.com', 'kitco.com', # Industry Gold Standards
+                'apnews.com', 'afp.com', 'bbc.com', 'bbc.co.uk', # Global Wires
+                'nytimes.com', 'washingtonpost.com', 'economist.com', 
+                'aljazeera.com', 'scmp.com', 'nikkei.com' # Global Perspectives
+            ]
+            verified_count = 0
+            
+            for r in results:
+                source_conf = "UNVERIFIED"
+                for d in trusted_domains:
+                    if d in r['href']: 
+                        source_conf = "TRUSTED_MAJOR"
+                        verified_count += 1
+                        break
+                
+                evidence.append(f"- [{source_conf}] {r['title']} ({r['body'][:100]}...)")
+            
+            summary = "\n".join(evidence)
+            if verified_count >= 2:
+                summary += "\n\n[CONCLUSION] VERIFIED BY MULTIPLE RENOWNED SOURCES."
+            elif verified_count == 1:
+                summary += "\n\n[CONCLUSION] PARTIALLY VERIFIED (1 Major Source)."
+            else:
+                summary += "\n\n[CONCLUSION] UNVERIFIED / POSSIBLE RUMOR. IGNORE."
+                
+            return summary
         except Exception as e:
             return f"Search Error: {e}"
 
@@ -78,10 +114,19 @@ class NewsAgent:
         gatekeeper_prompt = (
             f"CONSTITUTION:\n{self.constitution}\n\n"
             f"NEWS FEED:\n{headlines}\n\n"
-            f"TASK: select the ONE headline that is 'Suspicious', 'Extreme', or 'Rumor-based' and requires fact-checking.\n"
+            f"TASK: Identify ONE headline that represents a 'MACRO SHOCK' or 'STRATEGIC SHIFT'.\n"
+            f"FOCUS AREAS:\n"
+            f"- GEOPOLITICS: Wars, Sanctions, Elections, Coups.\n"
+            f"- TRADE: Deals, Tariffs, Embargoes, Supply Chain.\n"
+            f"- INDIA POLICY (HOME): RBI Rates, Union Budget, Elections, GST, Adani/Reliance.\n"
+            f"- COMMODITIES: Gold, Silver, Oil, Lithium, Rare Earths.\n"
+            f"- TECH: AI Breakthroughs, Chip Bans.\n\n"
+            f"STRICT AUTHENTICITY RULE:\n"
+            f"Refer to Article I of the Constitution. IGNORE unverified rumors or minor blogs.\n"
+            f"Only flag news from Renowned/Tier-1 sources if possible.\n\n"
             f"RULES:\n"
-            f"1. If news is standard (earnings, mild fluctuation), output 'NONE'.\n"
-            f"2. If news is EXTREME (Crash, War, Ban, Fraud), output that headline.\n"
+            f"1. If news is standard noise, output 'NONE'.\n"
+            f"2. If news is SIGNIFICANT in above areas, output target.\n"
             f"OUTPUT JSON: {{'needs_verification': boolean, 'target_headline': 'string'}}"
         )
 
@@ -100,24 +145,36 @@ class NewsAgent:
             clean_json = resp_text.replace("```json","").replace("```","").strip()
             decision = json.loads(clean_json)
             
-            # 3. THE FORK
+            # 3. THE FORK (Verification & Deep Research)
             verification_data = "Source: RSS Feed (Trusted)."
+            deep_dive_report = ""
+            
             if decision.get('needs_verification') is True:
                 target = decision.get('target_headline', '')
                 if len(target) > 5:
-                    print(f"[ALERT] Suspicious news detected. Investigating...")
+                    print(f"[ALERT] Key Intelligence identified. Verifying...") # Simplified to avoid charmap error
                     evidence = self._verify_truth(target)
-                    verification_data = f"FACT CHECK for '{target}':\n{evidence}"
+                    verification_data = f"CROSS-VERIFICATION DOSSIER for '{target}':\n{evidence}"
+                    
+                    # TRIGGER DEEP RESEARCH (If verified and serious)
+                    if "UNVERIFIED" not in evidence and DeepResearchAgent:
+                         print(f"[SHERLOCK] Commissioning Deep Dive on: {target}...")
+                         investigator = DeepResearchAgent()
+                         deep_dive_report = investigator.investigate(target, context=evidence) 
+                         verification_data += f"\n\nDEEP RESEARCH REPORT:\n{deep_dive_report}"
             
             # 4. FINAL JUDGMENT
             final_prompt = (
                 f"You are the Sovereign Judge. \n"
                 f"CONSTITUTION:\n{self.constitution}\n\n"
                 f"HEADLINES:\n{headlines}\n\n"
-                f"VERIFICATION CONTEXT:\n{verification_data}\n\n"
-                f"TASK: Score the Market Sentiment (-10 to +10).\n"
-                f"RULE: If Verification Context says the news is FAKE or OLD, ignore it.\n"
-                f"OUTPUT JSON: {{'score': int, 'reason': 'string'}}"
+                f"VERIFICATION DOSSIER:\n{verification_data}\n\n"
+                f"TASK: Score Global Market Sentiment (-10 to +10) and Identify Key Trends.\n"
+                f"RULES:\n"
+                f"1. UNVERIFIED news = Ignore.\n"
+                f"2. GEOPOLITICS (War/Peace) = High Impact (+/- 5 points).\n"
+                f"3. COMMODITIES (Gold/Oil) = Strategic Impact.\n"
+                f"OUTPUT JSON: {{'score': int, 'reason': 'string', 'key_trend': 'string'}}"
             )
             
             if claude:
